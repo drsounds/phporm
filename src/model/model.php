@@ -1,9 +1,13 @@
 <?php
-
-/***
+/**
+ * PHP ORM Library
  * Model.php
  * @author Alexander Forselius <alex@artistconnector.com>
  * @license MIT
+ **/
+
+/**
+ * Represents a model
  **/
 class Model {
 	public static $_table = NULL;
@@ -63,6 +67,11 @@ class Model {
 		$className::$_dataSource->delete($className::$_table, array($className::$_idfield => $this->data[$className::$_idfield]));
 	}
 
+	public function update() {
+		$className = get_class($this);
+		$className::$_dataSource->update($className::$_table, array($className::$_idfield => $this->data[$className::$_idfield]));
+	}
+
 	public function save($data = NULL) {
 		$className = get_class($this);
 		if (isset($this->data[$className::$_idfield]) && $this->data[$className::$_idfield]) {
@@ -106,6 +115,9 @@ abstract class DataSource {
 	public abstract function select($fields, $table, $conditions); 
 }
 
+/**
+ * We provide MySQLDataSource for your convenience
+ **/
 class MySQLDataSource extends DataSource {
 
 	/**
